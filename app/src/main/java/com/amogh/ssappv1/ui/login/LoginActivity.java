@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amogh.ssappv1.AfterLoginActivity;
 import com.amogh.ssappv1.R;
 import com.amogh.ssappv1.ui.login.LoginViewModel;
 import com.amogh.ssappv1.ui.login.LoginViewModelFactory;
@@ -74,7 +76,10 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-                finish();
+                //finish();
+
+                Intent i = new Intent(LoginActivity.this, AfterLoginActivity.class);
+                startActivity(i);
             }
         });
 
@@ -128,4 +133,6 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
+
+
 }
