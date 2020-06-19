@@ -2,10 +2,12 @@ package com.amogh.ssappv1.ui.login;
 
 import android.app.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -25,8 +27,7 @@ import android.widget.Toast;
 
 import com.amogh.ssappv1.AfterLoginActivity;
 import com.amogh.ssappv1.R;
-import com.amogh.ssappv1.ui.login.LoginViewModel;
-import com.amogh.ssappv1.ui.login.LoginViewModelFactory;
+import com.amogh.ssappv1.utils.BlackBox;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
@@ -108,22 +110,25 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                           passwordEditText.getText().toString());
                 }
                 return false;
+
             }
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+
             }
+
         });
     }
-
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
@@ -132,6 +137,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(LoginActivity.this, LoginActivity.class);
+        startActivity(i);
     }
 
 
