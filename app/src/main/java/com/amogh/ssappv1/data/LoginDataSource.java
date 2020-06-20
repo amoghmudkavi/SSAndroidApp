@@ -2,6 +2,7 @@ package com.amogh.ssappv1.data;
 
 import com.amogh.ssappv1.SSApp;
 import com.amogh.ssappv1.data.model.LoggedInUser;
+import com.amogh.ssappv1.utils.BlackBox;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,10 +41,11 @@ public class LoginDataSource {
 
     private JSONObject validateUserCred(String userName, String pass) throws Exception {
         JSONObject user = this.readJSONFromAsset(userName);
+        BlackBox bb = new BlackBox("amogh");
         if( null == user) {
             throw new Exception("User not found");
         }
-        if( !pass.equals(user.getString("uPass")) ) {
+        if( !bb.decrypt(pass).equals(bb.decrypt(user.getString("uPass"))) ) {
             throw new Exception ("Invalid user");
         }
         return user;

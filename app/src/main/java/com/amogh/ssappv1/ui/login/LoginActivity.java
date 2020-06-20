@@ -102,6 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         };
+
+        final BlackBox bb = new BlackBox("amogh");
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -109,8 +111,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    String encrPass = "";
+                    try {
+                        encrPass = bb.encrypt(passwordEditText.getText().toString());
+                    } catch(Exception e) {
+                        // TODO
+                    }
                     loginViewModel.login(usernameEditText.getText().toString(),
-                           passwordEditText.getText().toString());
+                            encrPass);
                 }
                 return false;
 
@@ -122,8 +130,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
+
+                String encrPass = "";
+                try {
+                    Thread.sleep(1000);
+                    encrPass = bb.encrypt(passwordEditText.getText().toString());
+                } catch(Exception e) {
+                    // TODO
+                }
                 loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                        encrPass);
 
             }
 
